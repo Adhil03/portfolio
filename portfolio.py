@@ -57,6 +57,7 @@ def get():
         ),
         NavContainer(
             *map(Li, scrollspy_links),
+            # ThemePicker(),
             uk_scrollspy_nav=True,
             sticky=True,
             cls=(NavT.primary, "pt-20 px-5 pr-10"),
@@ -195,6 +196,28 @@ def get():
             ),
             _Section(
                 H2("Contact"),
+                DivHStacked(
+                    A(
+                        UkIcon("linkedin", height=30, width=30),
+                        href="https://www.linkedin.com/in/adhil03",
+                        target="_blank",
+                    ),
+                    A(
+                        UkIcon("github", height=30, width=30),
+                        href="https://github.com/adhil03",
+                        target="_blank",
+                    ),
+                    A(
+                        UkIcon("phone", height=30, width=30),
+                        href="tel:+917339445413",
+                        target="_blank",
+                    ),
+                    A(
+                        UkIcon("mail", height=30, width=30),
+                        href="mailto:adhilpro253@gamil.com",
+                        target="_blank",
+                    ),
+                ),
                 id="contact-section",
             ),
         ),
