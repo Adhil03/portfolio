@@ -95,12 +95,12 @@ def get():
             Div(
                 Img(
                     src="/static/adhil.jpg",
-                    cls="w-40 h-40 rounded-full border-4 border-blue-200 shadow-2xl mb-8 mx-auto",
+                    cls="w-44 h-44 rounded-full object-cover border-4 border-blue-200 shadow-2xl mb-8 mx-auto",
                 ),
                 Div(
                     H1(
                         "Hey there, I'm Adhil",
-                        cls="typing text-4xl md:text-6xl font-extrabold tracking-tighter",
+                        cls="typing text-4xl md:text-6xl pb-4 font-extrabold tracking-tighter",
                     ),
                     cls="typing-container",
                 ),
@@ -112,7 +112,11 @@ def get():
                         target="_blank",
                         cls="text-blue-600",
                     ),
-                    cls="text-gray-500 mt-4",
+                    cls="text-gray-500 mb-4",
+                ),
+                I(
+                    '"A passionate Python developer with hands-on experience in data analytics and backend development. I build reliable backend features using Python and FastHTML to support real-world applications."',
+                    cls="text-gray-500",
                 ),
                 DivHStacked(
                     A(
@@ -222,7 +226,7 @@ def get():
         hero,
         SectionWrapper(
             P(
-                "A passionate Python developer with hands-on experience in data analytics and backend development. I build reliable backend features using Python and FastHTML to support real-world applications.",
+                "I have fundamental knowledge and hands-on experience in Data Analytics and Python development. I have worked on ETL and data wrangling pipelines to prepare clean, reliable datasets, developed Power BI dashboards for analysis and reporting, and performed data validation using Excel and Power Query. On the backend side, I have built application features using Python and FastHTML, working with SQLite for data storage. I follow standard development practices, including basic testing and GitHub-based version control, and have applied these skills in real-world projects such as an LMS and a Quran memorization SRS.",
                 cls="text-lg leading-relaxed text-gray-600",
             ),
             id="about",
@@ -298,15 +302,29 @@ def get():
                     A(
                         UkIcon("github", 30),
                         href="https://github.com/adhil03",
-                        cls="text-gray-400 hover:text-black transition",
+                        cls="text-gray-400 hover:text-gray-100 transition",
                     ),
                     A(
                         UkIcon("mail", 30),
                         href="mailto:adlpro253@gmail.com",
                         cls="text-gray-400 hover:text-red-500 transition",
                     ),
-                    gap=10,
-                    cls="py-12",
+                    A(
+                        UkIcon("phone", 30),
+                        href="tel:+917339445413",
+                        cls="text-gray-400 hover:text-green-500 transition",
+                    ),
+                    A(
+                        UkIcon("messages-square", 30),
+                        href="https://discordapp.com/users/adhil003",
+                        cls="text-gray-400 hover:text-blue-200 transition",
+                    ),
+                    A(
+                        UkIcon("square-activity", 30),
+                        href="https://www.hackerrank.com/profile/adlpro253",
+                        cls="text-gray-400 hover:text-green-200 transition",
+                    ),
+                    cls=" space-x-4",
                 ),
                 I(
                     "© 2025 Adhil. Built with FastHTML & MonsterUI",
@@ -314,6 +332,7 @@ def get():
                 ),
             ),
             id="contact",
+            cls="py-4 bg-gray-900 mt-20",
         ),
     )
 
