@@ -1,9 +1,14 @@
 from fasthtml.common import *
 from monsterui.all import *
+from starlette.staticfiles import StaticFiles, FileResponse
+from starlette.responses import RedirectResponse
 
 hyperscript_header = Script(src="https://unpkg.com/hyperscript.org@0.9.14")
 hdrs = Theme.blue.headers()
-app, rt = fast_app(hdrs=(Theme.blue.headers(highlightjs=True), hyperscript_header))
+favicon_link = Link(rel="icon", href="/static/favicon.ico", type="image/x-icon")
+app, rt = fast_app(
+    hdrs=(Theme.blue.headers(highlightjs=True), hyperscript_header, favicon_link)
+)
 
 
 ### Navigation and Scrollspy ###
@@ -39,6 +44,13 @@ skills = [
 
 scrollspy_links = (*[A(s.capitalize(), href=f"#{s}-section") for s in sections],)
 
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+
+@rt("/favicon.ico")
+def favicon():
+    return RedirectResponse(url="/static/favicon.ico")
+
 
 @rt("/")
 def get():
@@ -49,7 +61,8 @@ def get():
         NavBar(
             *scrollspy_links,
             brand=DivLAligned(
-                H3("Adhil's Portfolio"), UkIcon("code-xml", height=30, width=30)
+                H3(A("Adhil's Portfolio", href="/")),
+                UkIcon("code-xml", height=30, width=30),
             ),
             sticky=True,
             uk_scrollspy_nav=True,
@@ -66,7 +79,7 @@ def get():
             Div(
                 Div(
                     Img(
-                        src="./static/Adhil.jpg",
+                        src="/static/adhil.jpg",
                         alt="Adhil's Profile Picture",
                         cls="w-44 h-42 mr-4 rounded-full object-cover",
                     ),
