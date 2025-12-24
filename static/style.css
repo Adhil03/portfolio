@@ -1,0 +1,48 @@
+/* Smooth Scrolling */
+html { scroll-behavior: smooth !important; }
+body { font-family: 'Inter', sans-serif; background-color: #fff; }
+
+/* 1. GLASS NAV BAR (Horizontal & Clean) */
+.glass-nav {
+    background: rgba(255, 255, 255, 0.8) !important;
+    backdrop-filter: blur(15px) saturate(180%);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+/* 2. NAV HIGHLIGHT (Text Only, No Line) */
+.uk-navbar-nav {
+    display: flex !important;
+    flex-direction: row !important; /* Forces horizontal */
+}
+
+.uk-navbar-nav li > a {
+    text-transform: capitalize !important;
+    color: #666 !important;
+    transition: color 0.3s ease;
+    margin: 8px;
+}
+
+/* Only change text color for active section, no background or lines */
+.uk-navbar-nav li.uk-active > a {
+    color: #3b82f6 !important;
+    font-weight: 700 !important;
+}
+
+/* 3. TYPING EFFECT (Fixed 'y' clipping) */
+.typing-container { 
+    display: inline-block; 
+    padding-bottom: 10px; /* Space after name so 'y' is not hidden */
+}
+
+.typing {
+    overflow: hidden;
+    border-right: .15em solid #3b82f6;
+    white-space: nowrap;
+    animation: typing 3.5s steps(30, end) forwards, blink-caret .75s step-end infinite;
+}
+
+@keyframes typing { from { width: 0 } to { width: 100% } }
+@keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: #3b82f6; } }
+
+/* Layout Containers */
+.section-container { max-width: 1000px; margin: 0 auto; padding: 0 2rem; }
