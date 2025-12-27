@@ -107,6 +107,13 @@ skills = [
     ("DuckDB", "zap"),
     ("Power BI", "bar-chart-3"),
 ]
+
+provider_logos = {
+    "Udemy": "/static/udemy.png",
+    "Coursera": "/static/coursera.png",
+    "GUVI": "/static/guvi.jpeg",
+    "HackerRank": "/static/hackerrank.png",
+}
 certs = [
     (
         "Microsoft Power BI Desktop",
@@ -243,7 +250,7 @@ def SkillsSection():
 def ContactSection():
     return SectionWrapper(
         Div(
-            H3("Get In Touch"),
+            UkIcon("heart-handshake", height=80, width=80, cls="text-blue-500 mb-6"),
             Grid(
                 # Left side: Text info
                 Div(
@@ -474,18 +481,26 @@ def get():
                 *[
                     Card(
                         DivHStacked(
-                            Div(
-                                H4(name, cls="m-0 font-bold text-sm"),
-                                P(f"via {prov}", cls="text-xs text-gray-400"),
+                            # Provider Logo
+                            Img(
+                                src=provider_logos.get(prov),
+                                cls="w-8 h-8 object-contain mr-4 rounded-md",
                             ),
+                            # Text Content
+                            Div(
+                                H4(name, cls="m-0 font-bold text-sm leading-tight"),
+                                P(prov, cls="text-xs text-gray-400 m-0"),
+                            ),
+                            # Link Icon
                             A(
                                 UkIcon("external-link", 18, 18),
                                 href=link,
                                 target="_blank",
-                                cls="ml-auto text-blue-500",
+                                cls="ml-auto text-blue-500 hover:scale-110 transition-transform",
                             ),
+                            cls="items-center",
                         ),
-                        cls="p-4 border-0 shadow-sm hover:bg-blue-50/30",
+                        cls="p-5 border-0 shadow-sm hover:shadow-md hover:bg-white transition-all bg-gray-50/50",
                     )
                     for name, prov, link in certs
                 ],
