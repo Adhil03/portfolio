@@ -161,7 +161,16 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 
 
 def NavBarCustom():
+    tp_dropdown = Div(
+        # The actual ThemePicker component from MonsterUI
+        ThemePicker(
+            color=True, radii=True, shadows=True, font=True, mode=True, cls="p-4"
+        ),
+        uk_dropdown="mode: click; pos: bottom-right",
+    )
+
     links = [Li(A(s.capitalize(), href=f"#{s}-section")) for s in sections]
+
     return NavBar(
         Ul(
             *links,
@@ -169,11 +178,14 @@ def NavBarCustom():
             uk_scrollspy_nav="closest: li; scroll: true; offset: 100",
         ),
         brand=DivLAligned(
-            H4("Adhil's Portfolio", cls="m-0 font-bold tracking-tight"),
-            UkIcon("code-xml", height=22, width=22, cls="ml-2 text-blue-500"),
+            H4("Adhil's Portfolio", cls="m-0 font-bold"),
+            UkIcon("code-xml", height=24, width=24, cls="ml-2 text-blue-500"),
+            # Button to trigger the ThemePicker dropdown
+            Button(UkIcon("palette"), cls="ml-4 btn-ghost p-2"),
+            tp_dropdown,
         ),
         sticky=True,
-        cls="glass-nav px-8",
+        cls="glass-nav px-10",
     )
 
 
@@ -340,9 +352,18 @@ def get():
                         "BISquared",
                         href="https://www.getprog.ai/profile/11910293",
                         target="_blank",
-                        cls="text-blue-600",
+                        cls=("text-blue-600", ButtonT.text),
                     ),
                     cls="text-gray-500 mb-4",
+                ),
+                DivHStacked(
+                    UkIcon("map-pin", cls="mr-2"),
+                    A(
+                        I("Chennai, India", cls=("text-grey-300", ButtonT.text)),
+                        href="https://maps.app.goo.gl/Mo764VWQ21JRVR8v7",
+                        target="_blank",
+                    ),
+                    cls="justify-center mb-4",
                 ),
                 Div(
                     I(
