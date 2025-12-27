@@ -3,6 +3,38 @@ from monsterui.all import *
 from starlette.staticfiles import StaticFiles
 
 # Data Objects
+contack_links = [
+    A(
+        UkIcon("linkedin", 30),
+        href="https://linkedin.com/in/adhil03",
+        cls="text-gray-400 hover:text-blue-600 transition",
+    ),
+    A(
+        UkIcon("github", 30),
+        href="https://github.com/adhil03",
+        cls="text-gray-400 hover:text-gray-200 transition",
+    ),
+    A(
+        UkIcon("mail", 30),
+        href="mailto:adlpro253@gmail.com",
+        cls="text-gray-400 hover:text-red-500 transition",
+    ),
+    A(
+        UkIcon("phone", 30),
+        href="tel:+917339445413",
+        cls="text-gray-400 hover:text-green-500 transition",
+    ),
+    A(
+        UkIcon("messages-square", 30),
+        href="https://discordapp.com/users/adhil003",
+        cls="text-gray-400 hover:text-blue-200 transition",
+    ),
+    A(
+        UkIcon("square-activity", 30),
+        href="https://www.hackerrank.com/profile/adlpro253",
+        cls="text-gray-400 hover:text-green-200 transition",
+    ),
+]
 sections = ["about", "skills", "experience", "certifications", "education", "contact"]
 skills = [
     ("Python", "code"),
@@ -114,9 +146,12 @@ def get():
                     ),
                     cls="text-gray-500 mb-4",
                 ),
-                I(
-                    '"A passionate Python developer with hands-on experience in data analytics and backend development. I build reliable backend features using Python and FastHTML to support real-world applications."',
-                    cls="text-gray-500",
+                Div(
+                    I(
+                        '"A passionate Python developer with hands-on experience in data analytics and backend development. I build reliable backend features using Python and FastHTML to support real-world applications."',
+                        cls="text-gray-500",
+                    ),
+                    cls="max-w-lg mx-auto mb-6 px-4",
                 ),
                 DivHStacked(
                     A(
@@ -136,8 +171,15 @@ def get():
                 ),
                 cls="text-center",
             ),
-            cls="container py-24 hero-gradient",
-        )
+            DivCentered(
+                DivHStacked(
+                    *(contack_links),
+                    id="contact",
+                    cls="space-x-10 mt-4",
+                ),
+            ),
+            cls="container py-12 hero-gradient",
+        ),
     )
 
     # EXPERIENCE WITH FULL CONTENT
@@ -294,36 +336,7 @@ def get():
         Footer(
             DivCentered(
                 DivHStacked(
-                    A(
-                        UkIcon("linkedin", 30),
-                        href="https://linkedin.com/in/adhil03",
-                        cls="text-gray-400 hover:text-blue-600 transition",
-                    ),
-                    A(
-                        UkIcon("github", 30),
-                        href="https://github.com/adhil03",
-                        cls="text-gray-400 hover:text-gray-100 transition",
-                    ),
-                    A(
-                        UkIcon("mail", 30),
-                        href="mailto:adlpro253@gmail.com",
-                        cls="text-gray-400 hover:text-red-500 transition",
-                    ),
-                    A(
-                        UkIcon("phone", 30),
-                        href="tel:+917339445413",
-                        cls="text-gray-400 hover:text-green-500 transition",
-                    ),
-                    A(
-                        UkIcon("messages-square", 30),
-                        href="https://discordapp.com/users/adhil003",
-                        cls="text-gray-400 hover:text-blue-200 transition",
-                    ),
-                    A(
-                        UkIcon("square-activity", 30),
-                        href="https://www.hackerrank.com/profile/adlpro253",
-                        cls="text-gray-400 hover:text-green-200 transition",
-                    ),
+                    *(contack_links),
                     cls=" space-x-4",
                 ),
                 I(
@@ -331,7 +344,6 @@ def get():
                     cls="text-gray-400 text-sm pb-10",
                 ),
             ),
-            id="contact",
             cls="py-4 bg-gray-900 mt-20",
         ),
     )
