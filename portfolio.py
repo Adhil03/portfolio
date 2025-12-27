@@ -3,7 +3,7 @@ from monsterui.all import *
 from starlette.staticfiles import StaticFiles
 
 # Data Objects
-contack_links = [
+contact_links = [
     A(
         UkIcon("linkedin", 30),
         href="https://linkedin.com/in/adhil03",
@@ -35,7 +35,15 @@ contack_links = [
         cls="text-gray-400 hover:text-green-200 transition",
     ),
 ]
-sections = ["about", "skills", "experience", "certifications", "education", "contact"]
+sections = [
+    "home",
+    "about",
+    "skills",
+    "experience",
+    "certifications",
+    "education",
+    "contact",
+]
 skills = [
     ("Python", "code"),
     ("FastHTML", "layout"),
@@ -49,6 +57,11 @@ certs = [
         "Microsoft Power BI Desktop",
         "Udemy",
         "https://www.udemy.com/certificate/UC-c2bd8fc2-2652-4ada-bf7f-c38a13c79b15/",
+    ),
+    (
+        "Data Analysis using Microsoft Excel",
+        "Coursera",
+        "https://www.coursera.org/account/accomplishments/verify/BH80B53FE41E/",
     ),
     (
         "100 Days of Code: Python Pro",
@@ -114,7 +127,7 @@ def SectionWrapper(*c, id, title):
             cls="section-container",
         ),
         id=f"{id}-section",
-        cls="py-20",
+        cls="py-12",
         uk_scrollspy="cls: uk-animation-slide-bottom-small; delay: 200",
     )
 
@@ -164,7 +177,7 @@ def get():
                     A(
                         UkIcon("mail", cls="mr-2"),
                         "Contact Me",
-                        href="#contact",
+                        href="#contact-section",
                         cls="btn btn-secondary",
                     ),
                     cls="mt-10 justify-center gap-4",
@@ -173,13 +186,14 @@ def get():
             ),
             DivCentered(
                 DivHStacked(
-                    *(contack_links),
-                    id="contact",
+                    *(contact_links),
+                    id="contact_links",
                     cls="space-x-10 mt-4",
                 ),
             ),
             cls="container py-12 hero-gradient",
         ),
+        id="home-section",
     )
 
     # EXPERIENCE WITH FULL CONTENT
@@ -336,7 +350,7 @@ def get():
         Footer(
             DivCentered(
                 DivHStacked(
-                    *(contack_links),
+                    *(contact_links),
                     cls=" space-x-4",
                 ),
                 I(
