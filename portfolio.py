@@ -4,6 +4,60 @@ from starlette.staticfiles import StaticFiles
 import urllib.parse
 
 # Data Objects
+skill_categories = {
+    "Data Analytics": [
+        ("Pandas", "table"),
+        ("SQL", "database"),
+        ("DuckDB", "zap"),
+        ("Power BI", "bar-chart-3"),
+        ("Rill Data", "chart-line"),
+        ("Matplotlib", "chart-spline"),
+        ("Excel", "file-spreadsheet"),
+        ("Power Query", "filter"),
+    ],
+    "Development": [
+        ("Python", "code"),
+        ("FastHTML", "rocket"),
+        ("REST APIs", "globe"),
+        ("Git", "git-branch"),
+        ("GitHub", "github"),
+        ("Pytest", "check-circle"),
+        ("SQL", "database"),
+        ("SQLite", "database"),
+        ("SQLAlchemy", "database-zap"),
+        ("FastAPI", "rocket"),
+    ],
+}
+# Data Analytics Focus
+da_expertise = [
+    "Data Cleaning",
+    "Data Visualization",
+    "Data Manipulation",
+    "Data Aggregation",
+    "Exploratory Data Analysis",
+    "Performance Metrics",
+    "ETL Pipelines",
+    "Dashboard Design",
+    "SQLite",
+]
+
+# Software Development Focus
+dev_expertise = [
+    "FastHTML",
+    "SQLAlchemy",
+    "Git",
+    "GitHub",
+    "Backend Logic",
+    "MVC Architecture",
+    "Automated Testing",
+    "Authentication",
+    "Authorization",
+    "Version Control",
+    "Testing",
+    "TDD",
+    "BDD",
+]
+expertise_areas = da_expertise + dev_expertise
 contact_links = [
     A(
         UkIcon("linkedin", 30),
@@ -130,6 +184,59 @@ def SectionWrapper(*c, id, title):
         id=f"{id}-section",
         cls="py-12",
         uk_scrollspy="cls: uk-animation-slide-bottom-small; delay: 200",
+    )
+
+
+def SkillsSection():
+    # Helper to build a category grid
+    def CategoryGrid(title, skill_list):
+        return Div(
+            H3(title, cls="text-xl font-bold mb-6 text-blue-600"),
+            Grid(
+                *[
+                    Card(
+                        DivVStacked(
+                            Div(
+                                UkIcon(icon, height=30, width=30, cls="text-blue-500"),
+                                cls="skill-icon-container mb-3",
+                            ),
+                            H4(name, cls="font-bold text-sm m-0"),
+                            cls="text-center p-4",
+                        ),
+                        cls="skill-card border-0 shadow-sm",
+                    )
+                    for name, icon in skill_list
+                ],
+                cols_min=2,
+                cols_md=3,
+                cols_lg=6,
+                gap=4,
+            ),
+            cls="mb-12",
+        )
+
+    return SectionWrapper(
+        Div(
+            # 1. Main Tools Categories
+            *[CategoryGrid(cat, items) for cat, items in skill_categories.items()],
+            # 2. Concepts & Expertise (Floating Badges Style)
+            Div(
+                H3("Concepts & Expertise", cls="text-xl font-bold mb-6 text-blue-600"),
+                Div(
+                    *[
+                        Span(
+                            exp,
+                            cls="px-6 py-3 bg-gray-50 border border-gray-100 rounded-xl text-sm font-semibold text-gray-700 m-2 inline-block hover:border-blue-400 hover:text-blue-600 transition-all",
+                        )
+                        for exp in expertise_areas
+                    ],
+                    cls="flex flex-wrap justify-start",
+                ),
+                cls="mt-16 p-8 bg-blue-50/30 rounded-3xl border border-blue-100/50",
+            ),
+        ),
+        id="skills",
+        title="Technical Stack",
     )
 
 
@@ -359,25 +466,8 @@ def get():
             id="about",
             title="About Me",
         ),
-        SectionWrapper(
-            Grid(
-                *[
-                    Card(
-                        DivVStacked(
-                            UkIcon(i, height=30, width=30, cls="text-blue-500"),
-                            H4(n),
-                            cls="text-center",
-                        ),
-                        cls="skill-card border-0 shadow-sm hover:shadow-md transition-all",
-                    )
-                    for n, i in skills
-                ],
-                cols_lg=6,
-                gap=4,
-            ),
-            id="skills",
-            title="Technical Stack",
-        ),
+        #
+        SkillsSection(),
         SectionWrapper(experience_card, id="experience", title="Experience"),
         SectionWrapper(
             Grid(
