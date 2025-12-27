@@ -1,6 +1,7 @@
 from fasthtml.common import *
 from monsterui.all import *
 from starlette.staticfiles import StaticFiles
+import urllib.parse
 
 # Data Objects
 contact_links = [
@@ -129,6 +130,76 @@ def SectionWrapper(*c, id, title):
         id=f"{id}-section",
         cls="py-12",
         uk_scrollspy="cls: uk-animation-slide-bottom-small; delay: 200",
+    )
+
+
+def ContactSection():
+    return SectionWrapper(
+        Div(
+            H3("Get In Touch"),
+            Grid(
+                # Left side: Text info
+                Div(
+                    H3("Let's work together", cls="font-bold text-2xl mb-4"),
+                    I(
+                        "I'm currently looking for new opportunities. Whether you have a question or just want to say hi, I'll try my best to get back to you!",
+                        cls="text-grey-600 justify mb-6",
+                    ),
+                    DivVStacked(
+                        DivHStacked(
+                            UkIcon("mail", cls="text-blue-500 mr-3"),
+                            P("adlpro253@gmail.com", cls="m-0"),
+                        ),
+                        DivHStacked(
+                            UkIcon("phone", cls="text-blue-500 mr-3"),
+                            P("+91 7339445413", cls="m-0"),
+                        ),
+                        gap=4,
+                    ),
+                    cls="pr-8",
+                ),
+                # Right side: The Form
+                # Inside ContactSection()
+                Form(
+                    DivVStacked(
+                        Input(
+                            placeholder="Your Name",
+                            name="name",
+                            cls="contact-input rounded-xl p-4",
+                            required=True,
+                        ),
+                        Input(
+                            placeholder="Your Email",
+                            name="email",
+                            type="email",
+                            cls="contact-input rounded-xl p-4",
+                            required=True,
+                        ),
+                        TextArea(
+                            placeholder="How can I help you?",
+                            name="message",
+                            rows=4,
+                            cls="contact-input rounded-xl p-4",
+                            required=True,
+                        ),
+                        Button(
+                            "Send Message",
+                            type="submit",
+                            cls=ButtonT.primary + " py-4 rounded-xl font-bold",
+                        ),
+                        gap=4,
+                    ),
+                    action="/send-message",
+                    method="post",
+                ),
+                cols_md=2,
+                gap=12,
+                cls="items-center",
+            ),
+            cls="form-container border border-gray-100",
+        ),
+        id="contact",
+        title="Get In Touch",
     )
 
 
@@ -347,6 +418,7 @@ def get():
             id="education",
             title="Education",
         ),
+        ContactSection(),
         Footer(
             DivCentered(
                 DivHStacked(
@@ -361,6 +433,20 @@ def get():
             cls="py-4 bg-gray-900 mt-20",
         ),
     )
+
+
+@rt("/send-message", methods=["POST"])
+async def post(request):
+    form = await request.form()
+    name = form.get("name")
+    email_addr = form.get("email")
+    message = form.get("message")
+
+    subject = f"Portfolio Message from {name}"
+    body = f"From: {name} ({email_addr})\n\nMessage:\n{message}"
+
+    mailto_link = f"mailto:adlpro253@gmail.com?subject={urllib.parse.quote(subject)}&body={urllib.parse.quote(body)}"
+    return RedirectResponse(url=mailto_link)
 
 
 serve()
