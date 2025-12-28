@@ -283,13 +283,92 @@ def get():
                             UkIcon(icon, cls="text-primary mr-2"),
                             H4(title, cls="m-0 font-bold"),
                         ),
+                        # Label Row (Confidential / Pair Programming)
+                        Div(
+                            (
+                                Span(
+                                    "Confidential 🔒",
+                                    cls="text-[10px] bg-blue-50 text-blue-600 px-2 py-0.5 rounded",
+                                )
+                                if confidential
+                                else ""
+                            ),
+                            # (
+                            #     Span(
+                            #         # "Pair Programmed",
+                            #         cls="text-[10px] bg-blue-50 text-blue-600 px-2 py-0.5 rounded",
+                            #     )
+                            #     if pair_programmed
+                            #     else ""
+                            # ),
+                            # (
+                            #     Span(
+                            #         # "Collabration",
+                            #         cls="text-[10px] bg-blue-50 text-blue-600 px-2 py-0.5 rounded",
+                            #     )
+                            #     if collabrative
+                            #     else ""
+                            # ),
+                            cls="mt-2",
+                        ),
                         Ul(
                             *[Li(b) for b in bullets],
                             cls="list-disc ml-5 mt-4 text-sm text-muted-foreground space-y-2",
                         ),
-                        cls="p-6 project-subcard rounded-2xl h-full shadow-sm",
+                        # Expandable Proof Section
+                        Details(
+                            Summary(
+                                "View Proof & Links",
+                                cls="text-xs text-primary cursor-pointer mt-4 hover:underline",
+                            ),
+                            Div(
+                                Hr(cls="my-2"),
+                                P(
+                                    proof_desc,
+                                    cls="text-xs italic text-muted-foreground m-6",
+                                ),
+                                (
+                                    (
+                                        DivHStacked(
+                                            (
+                                                A(
+                                                    Button(
+                                                        "Code",
+                                                        cls="uk-button-xsmall uk-button-default text-[10px]",
+                                                    ),
+                                                    href=repo_url,
+                                                    target="_blank",
+                                                )
+                                                if repo_url
+                                                else ""
+                                            ),
+                                            (
+                                                A(
+                                                    Button(
+                                                        "Verify",
+                                                        cls="uk-button-xsmall uk-button-primary text-[10px]",
+                                                    ),
+                                                    href=f"{repo_url}/graphs/contributors",
+                                                    target="_blank",
+                                                )
+                                                if repo_url
+                                                else ""
+                                            ),
+                                            cls="gap-2",
+                                        )
+                                        if not confidential
+                                        else P(
+                                            "Codebase is private per client agreement.",
+                                            cls="text-[10px] text-muted-foreground m-6",
+                                        )
+                                    ),
+                                ),
+                            ),
+                            cls="mt-auto",
+                        ),
+                        cls="p-6 project-subcard rounded-2xl h-full shadow-sm flex flex-col",
                     )
-                    for title, icon, bullets in [
+                    for title, icon, bullets, confidential, repo_url, proof_desc in [
                         (
                             "IOM USRAP Dashboard",
                             "presentation",
@@ -298,6 +377,11 @@ def get():
                                 "Built Power Query pipelines for data cleaning, merging, and transformation.",
                                 "Performed data validation and quality checks to ensure accurate reporting.",
                             ],
+                            True,  # Confidential
+                            # False,  # Pair Programmed
+                            # False,
+                            None,
+                            "Client Confidentiality Agreement in place.",
                         ),
                         (
                             "Learning Management System",
@@ -307,6 +391,11 @@ def get():
                                 "Built student-facing pages for taking quizzes, saving answers, and viewing results.",
                                 "Handled Excel imports using Pandas/OpenPyXL and exports via xlwings.",
                             ],
+                            False,
+                            # True,  # Pair Programmed
+                            # False,
+                            "https://github.com/BIsquared/lms",
+                            "Collaborated in a Driver-Navigator setup to ensure high code quality.",
                         ),
                         (
                             "Quran Memorization SRS",
@@ -316,6 +405,11 @@ def get():
                                 "Built multi-role user system for parents, teachers, and students.",
                                 "Enhanced experience with Python, FastHTML, MVC, and SQLite.",
                             ],
+                            False,
+                            # False,
+                            # True,
+                            "https://github.com/siraj-samsudeen/quran-srs",
+                            "Collaborated on feature implementation and logic refinement for the Spaced Repetition engine.",
                         ),
                     ]
                 ],
@@ -325,7 +419,6 @@ def get():
         ),
         cls="p-8 border-0 shadow-2xl",
     )
-
     return Title("Adhil | Software Engineer"), Main(
         NavBarCustom(),
         hero,
