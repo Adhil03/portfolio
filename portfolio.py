@@ -45,7 +45,6 @@ skill_categories = {
         ("SQL", "database"),
         ("SQLite", "database"),
         ("SQLAlchemy", "database-zap"),
-        ("FastAPI", "rocket"),
     ],
 }
 
