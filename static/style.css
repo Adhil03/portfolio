@@ -15,30 +15,44 @@ body {
     border-bottom: 1px solid hsl(var(--border));
 }
 
-/* Forces the list to stay horizontal and spaced on all screens */
+
+/* --- RESPONSIVE NAVIGATION --- */
+
+/* 1. Mobile View (Default / Small Screens) */
 .uk-navbar-nav { 
     display: flex !important; 
-    flex-direction: row !important; 
-    gap: 20px; 
-    padding: 0;
+    flex-direction: column !important; /* Stack vertically on mobile */
+    gap: 15px; 
+    padding: 20px 0;
     margin: 0;
     list-style: none;
+    align-items: center; /* Center links in mobile column */
 }
 
+/* 2. Desktop View (Large Screens) */
+@media (min-width: 960px) {
+    .uk-navbar-nav { 
+        flex-direction: row !important; /* Switch back to horizontal for desktop */
+        gap: 25px; 
+        padding: 0;
+        align-items: center;
+    }
+}
+
+/* Base Link Styling */
 .uk-navbar-nav li > a { 
     color: hsl(var(--muted-foreground)) !important; 
-    padding: 0 10px !important; 
     transition: color 0.3s ease;
-    white-space: nowrap; /* Prevents text from wrapping to a second line */
+    white-space: nowrap;
+    font-size: 1rem;
+    text-decoration: none;
 }
 
+/* Active Highlight */
 .uk-navbar-nav li.uk-active > a { 
     color: hsl(var(--primary)) !important; 
     font-weight: 800 !important; 
 }
-
-/* Ensure the mobile toggle icon is never shown */
-.mobile-menu-toggle { display: none !important; }
 
 /* 2. HERO & TYPING ('y' fix) */
 .typing-container { display: inline-block; padding-bottom: 15px; }
