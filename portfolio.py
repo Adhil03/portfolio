@@ -1,9 +1,29 @@
 from fasthtml.common import *
 from monsterui.all import *
 from starlette.staticfiles import StaticFiles
+from starlette.responses import RedirectResponse, FileResponse
 import urllib.parse
 
-# Data Objects
+# 1. APP & DATA SETUP
+hdrs = (
+    Theme.blue.headers(highlightjs=True),
+    Link(rel="stylesheet", href="/static/style.css"),
+    Link(rel="icon", href="/static/favicon.ico", type="image/x-icon"),
+)
+
+app, rt = fast_app(hdrs=hdrs, bodykw={"class": "bg-background text-foreground"})
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+sections = [
+    "home",
+    "about",
+    "skills",
+    "experience",
+    "certifications",
+    "education",
+    "contact",
+]
+
 skill_categories = {
     "Data Analytics": [
         ("Pandas", "table"),
@@ -28,8 +48,8 @@ skill_categories = {
         ("FastAPI", "rocket"),
     ],
 }
-# Data Analytics Focus
-da_expertise = [
+
+expertise_areas = [
     "Data Cleaning",
     "Data Visualization",
     "Data Manipulation",
@@ -39,10 +59,6 @@ da_expertise = [
     "ETL Pipelines",
     "Dashboard Design",
     "SQLite",
-]
-
-# Software Development Focus
-dev_expertise = [
     "FastHTML",
     "SQLAlchemy",
     "Git",
@@ -57,56 +73,6 @@ dev_expertise = [
     "TDD",
     "BDD",
 ]
-expertise_areas = da_expertise + dev_expertise
-contact_links = [
-    A(
-        UkIcon("linkedin", 30),
-        href="https://linkedin.com/in/adhil03",
-        cls="text-gray-400 hover:text-blue-600 transition",
-    ),
-    A(
-        UkIcon("github", 30),
-        href="https://github.com/adhil03",
-        cls="text-gray-400 hover:text-gray-200 transition",
-    ),
-    A(
-        UkIcon("mail", 30),
-        href="mailto:adlpro253@gmail.com",
-        cls="text-gray-400 hover:text-red-500 transition",
-    ),
-    A(
-        UkIcon("phone", 30),
-        href="tel:+917339445413",
-        cls="text-gray-400 hover:text-green-500 transition",
-    ),
-    A(
-        UkIcon("messages-square", 30),
-        href="https://discordapp.com/users/adhil003",
-        cls="text-gray-400 hover:text-blue-200 transition",
-    ),
-    A(
-        UkIcon("square-activity", 30),
-        href="https://www.hackerrank.com/profile/adlpro253",
-        cls="text-gray-400 hover:text-green-200 transition",
-    ),
-]
-sections = [
-    "home",
-    "about",
-    "skills",
-    "experience",
-    "certifications",
-    "education",
-    "contact",
-]
-skills = [
-    ("Python", "code"),
-    ("FastHTML", "layout"),
-    ("Pandas", "table"),
-    ("SQL", "database"),
-    ("DuckDB", "zap"),
-    ("Power BI", "bar-chart-3"),
-]
 
 provider_logos = {
     "Udemy": "/static/udemy.png",
@@ -114,6 +80,7 @@ provider_logos = {
     "GUVI": "/static/guvi.jpeg",
     "HackerRank": "/static/hackerrank.png",
 }
+
 certs = [
     (
         "Microsoft Power BI Desktop",
@@ -147,197 +114,97 @@ certs = [
     ),
 ]
 
-hdrs = (
-    Theme.blue.headers(highlightjs=True),
-    Link(rel="stylesheet", href="/static/style.css"),
-    Link(
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap",
-        rel="stylesheet",
+contact_links = [
+    A(
+        UkIcon("linkedin", 30),
+        href="https://linkedin.com/in/adhil03",
+        cls="text-muted-foreground hover:text-primary transition",
     ),
-)
+    A(
+        UkIcon("github", 30),
+        href="https://github.com/adhil03",
+        cls="text-muted-foreground hover:text-foreground transition",
+    ),
+    A(
+        UkIcon("mail", 30),
+        href="mailto:adlpro253@gmail.com",
+        cls="text-muted-foreground hover:text-destructive transition",
+    ),
+    A(
+        UkIcon("phone", 30),
+        href="tel:+917339445413",
+        cls="text-muted-foreground hover:text-success transition",
+    ),
+]
 
-app, rt = fast_app(hdrs=hdrs)
-app.mount("/static", StaticFiles(directory="static"), name="static")
 
-
+# 2. COMPONENTS
 def NavBarCustom():
     tp_dropdown = Div(
-        # The actual ThemePicker component from MonsterUI
-        ThemePicker(
-            color=True, radii=True, shadows=True, font=True, mode=True, cls="p-4"
-        ),
+        ThemePicker(mode=True, color=True, radii=True),
         uk_dropdown="mode: click; pos: bottom-right",
     )
 
-    links = [Li(A(s.capitalize(), href=f"#{s}-section")) for s in sections]
+    # Desktop Links
+    nav_links = [Li(A(s.capitalize(), href=f"#{s}-section")) for s in sections]
 
     return NavBar(
+        # Horizontal Desktop Nav
         Ul(
-            *links,
-            cls="uk-navbar-nav",
+            *nav_links,
+            cls="uk-navbar-nav desktop-nav",
             uk_scrollspy_nav="closest: li; scroll: true; offset: 100",
         ),
         brand=DivLAligned(
             H4("Adhil's Portfolio", cls="m-0 font-bold"),
-            UkIcon("code-xml", height=24, width=24, cls="ml-2 text-blue-500"),
-            # Button to trigger the ThemePicker dropdown
-            Button(UkIcon("palette"), cls="ml-4 btn-ghost p-2"),
+            UkIcon("badge-check", cls="ml-2"),
+            Button(UkIcon("palette"), cls="ml-4 btn-ghost"),
             tp_dropdown,
         ),
         sticky=True,
-        cls="glass-nav px-10",
+        cls="glass-nav px-8",
     )
 
 
 def SectionWrapper(*c, id, title):
     return Section(
         Div(
-            Div(
-                H2(title, cls="font-bold tracking-tight text-3xl"),
-                DividerLine(),
-                cls="mb-8",
-            ),
+            Div(H2(title, cls="font-bold text-3xl"), DividerLine(), cls="mb-8"),
             *c,
             cls="section-container",
         ),
         id=f"{id}-section",
-        cls="py-12",
+        cls="py-16",
         uk_scrollspy="cls: uk-animation-slide-bottom-small; delay: 200",
     )
 
 
-def SkillsSection():
-    # Helper to build a category grid
-    def CategoryGrid(title, skill_list):
-        return Div(
-            H3(title, cls="text-xl font-bold mb-6 text-blue-600"),
-            Grid(
-                *[
-                    Card(
-                        DivVStacked(
-                            Div(
-                                UkIcon(icon, height=30, width=30, cls="text-blue-500"),
-                                cls="skill-icon-container mb-3",
-                            ),
-                            H4(name, cls="font-bold text-sm m-0"),
-                            cls="text-center p-4",
-                        ),
-                        cls="skill-card border-0 shadow-sm",
-                    )
-                    for name, icon in skill_list
-                ],
-                cols_min=2,
-                cols_md=3,
-                cols_lg=6,
-                gap=4,
-            ),
-            cls="mb-12",
-        )
-
-    return SectionWrapper(
-        Div(
-            # 1. Main Tools Categories
-            *[CategoryGrid(cat, items) for cat, items in skill_categories.items()],
-            # 2. Concepts & Expertise (Floating Badges Style)
-            Div(
-                H3("Concepts & Expertise", cls="text-xl font-bold mb-6 text-blue-600"),
-                Div(
-                    *[
-                        Span(
-                            exp,
-                            cls="px-6 py-3 bg-gray-50 border border-gray-100 rounded-xl text-sm font-semibold text-gray-700 m-2 inline-block hover:border-blue-400 hover:text-blue-600 transition-all",
-                        )
-                        for exp in expertise_areas
-                    ],
-                    cls="flex flex-wrap justify-start",
-                ),
-                cls="mt-16 p-8 bg-blue-50/30 rounded-3xl border border-blue-100/50",
-            ),
-        ),
-        id="skills",
-        title="Technical Stack",
-    )
+# 3. ROUTES
+@rt("/favicon.ico")
+def get():
+    return FileResponse("static/favicon.ico")
 
 
-def ContactSection():
-    return SectionWrapper(
-        Div(
-            UkIcon("heart-handshake", height=80, width=80, cls="text-blue-500 mb-6"),
-            Grid(
-                # Left side: Text info
-                Div(
-                    H3("Let's work together", cls="font-bold text-2xl mb-4"),
-                    I(
-                        "I'm currently looking for new opportunities. Whether you have a question or just want to say hi, I'll try my best to get back to you!",
-                        cls="text-grey-600 justify mb-6",
-                    ),
-                    DivVStacked(
-                        DivHStacked(
-                            UkIcon("mail", cls="text-blue-500 mr-3"),
-                            P("adlpro253@gmail.com", cls="m-0"),
-                        ),
-                        DivHStacked(
-                            UkIcon("phone", cls="text-blue-500 mr-3"),
-                            P("+91 7339445413", cls="m-0"),
-                        ),
-                        gap=4,
-                    ),
-                    cls="pr-8",
-                ),
-                # Right side: The Form
-                # Inside ContactSection()
-                Form(
-                    DivVStacked(
-                        Input(
-                            placeholder="Your Name",
-                            name="name",
-                            cls="contact-input rounded-xl p-4",
-                            required=True,
-                        ),
-                        Input(
-                            placeholder="Your Email",
-                            name="email",
-                            type="email",
-                            cls="contact-input rounded-xl p-4",
-                            required=True,
-                        ),
-                        TextArea(
-                            placeholder="How can I help you?",
-                            name="message",
-                            rows=4,
-                            cls="contact-input rounded-xl p-4",
-                            required=True,
-                        ),
-                        Button(
-                            "Send Message",
-                            type="submit",
-                            cls=ButtonT.primary + " py-4 rounded-xl font-bold",
-                        ),
-                        gap=4,
-                    ),
-                    action="/send-message",
-                    method="post",
-                ),
-                cols_md=2,
-                gap=12,
-                cls="items-center",
-            ),
-            cls="form-container border border-gray-100",
-        ),
-        id="contact",
-        title="Get In Touch",
+@rt("/send-message", methods=["POST"])
+async def post(request):
+    form = await request.form()
+    name, email, msg = form.get("name"), form.get("email"), form.get("message")
+    subject = urllib.parse.quote(f"Portfolio Message from {name}")
+    body = urllib.parse.quote(f"From: {name} ({email})\n\n{msg}")
+    return RedirectResponse(
+        url=f"mailto:adlpro253@gmail.com?subject={subject}&body={body}"
     )
 
 
 @rt("/")
 def get():
-    # HERO
+    # Hero Section
     hero = Section(
         Div(
             Div(
                 Img(
                     src="/static/adhil.jpg",
-                    cls="w-44 h-44 rounded-full object-cover border-4 border-blue-200 shadow-2xl mb-8 mx-auto",
+                    cls="w-44 h-44 rounded-full object-cover border-4 border-primary shadow-2xl mb-8 mx-auto",
                 ),
                 Div(
                     H1(
@@ -352,9 +219,9 @@ def get():
                         "BISquared",
                         href="https://www.getprog.ai/profile/11910293",
                         target="_blank",
-                        cls=("text-blue-600", ButtonT.text),
+                        cls=("text-primary font-bold", ButtonT.text),
                     ),
-                    cls="text-gray-500 mb-4",
+                    cls="mb-4",
                 ),
                 DivHStacked(
                     UkIcon("map-pin", cls="mr-2"),
@@ -370,7 +237,7 @@ def get():
                         '"A passionate Python developer with hands-on experience in data analytics and backend development. I build reliable backend features using Python and FastHTML to support real-world applications."',
                         cls="text-gray-500",
                     ),
-                    cls="max-w-lg mx-auto mb-6 px-4",
+                    cls="max-w-lg mx-auto mb-6 px-4 text-muted-foreground",
                 ),
                 DivHStacked(
                     A(
@@ -388,99 +255,76 @@ def get():
                     ),
                     cls="mt-10 justify-center gap-4",
                 ),
+                DivCentered(DivHStacked(*contact_links, cls="space-x-8 mt-10")),
                 cls="text-center",
-            ),
-            DivCentered(
-                DivHStacked(
-                    *(contact_links),
-                    id="contact_links",
-                    cls="space-x-10 mt-4",
-                ),
             ),
             cls="container py-12 hero-gradient",
         ),
         id="home-section",
     )
 
-    # EXPERIENCE WITH FULL CONTENT
+    # Full Experience Section
     experience_card = Card(
         Div(
             DivHStacked(
                 Div(
-                    H3("BI Squared Consulting Ltd", cls="font-bold text-blue-600 m-0"),
-                    P(
-                        "Software Engineer – Data & Python",
-                        cls="text-gray-500 font-medium",
-                    ),
+                    H3("BI Squared Consulting Ltd", cls="font-bold text-primary m-0"),
+                    P("Software Engineer – Data & Python", cls="text-muted-foreground"),
                 ),
                 Span(
                     "April 2024 – Present",
-                    cls="px-4 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-bold",
+                    cls="px-4 py-1 bg-primary/10 text-primary rounded-full text-xs font-bold ml-auto",
                 ),
                 cls="flex justify-between items-start mb-10",
             ),
             Grid(
-                # IOM Project
-                Div(
-                    DivHStacked(
-                        UkIcon("presentation", cls="text-blue-500 mr-2"),
-                        H4("IOM USRAP Dashboard", cls="m-0 font-bold"),
-                    ),
-                    Ul(
-                        Li(
-                            "Developed Power BI dashboards to improve visibility into budget and operational trends."
+                *[
+                    Div(
+                        DivHStacked(
+                            UkIcon(icon, cls="text-primary mr-2"),
+                            H4(title, cls="m-0 font-bold"),
                         ),
-                        Li(
-                            "Built Power Query pipelines for data cleaning and transformation."
+                        Ul(
+                            *[Li(b) for b in bullets],
+                            cls="list-disc ml-5 mt-4 text-sm text-muted-foreground space-y-2",
                         ),
-                        Li("Performed data validation to ensure accurate reporting."),
-                        cls="list-disc ml-5 mt-4 text-sm text-gray-600 space-y-2",
-                    ),
-                    cls="p-6 bg-gray-50 rounded-2xl hover:bg-white hover:shadow-xl transition-all h-full border border-transparent hover:border-blue-100",
-                ),
-                # LMS Project
-                Div(
-                    DivHStacked(
-                        UkIcon("graduation-cap", cls="text-blue-500 mr-2"),
-                        H4("Learning Management System", cls="m-0 font-bold"),
-                    ),
-                    Ul(
-                        Li(
-                            "Contributed to quiz-based LMS enabling teachers to manage quizzes."
+                        cls="p-6 project-subcard rounded-2xl h-full shadow-sm",
+                    )
+                    for title, icon, bullets in [
+                        (
+                            "IOM USRAP Dashboard",
+                            "presentation",
+                            [
+                                "Developed Power BI dashboards at summary and departmental levels to improve visibility into budget and operational trends.",
+                                "Built Power Query pipelines for data cleaning, merging, and transformation.",
+                                "Performed data validation and quality checks to ensure accurate reporting.",
+                            ],
                         ),
-                        Li(
-                            "Built student pages for taking quizzes and viewing results."
+                        (
+                            "Learning Management System",
+                            "graduation-cap",
+                            [
+                                "Contributed to a quiz-based LMS enabling teachers to manage questions, quizzes, and student performance.",
+                                "Built student-facing pages for taking quizzes, saving answers, and viewing results.",
+                                "Handled Excel imports using Pandas/OpenPyXL and exports via xlwings.",
+                            ],
                         ),
-                        Li(
-                            "Handled Excel imports using Pandas/OpenPyXL and exports via xlwings."
+                        (
+                            "Quran Memorization SRS",
+                            "book-open",
+                            [
+                                "Developed daily revision tracking system with adaptive SRS logic.",
+                                "Built multi-role user system for parents, teachers, and students.",
+                                "Enhanced experience with Python, FastHTML, MVC, and SQLite.",
+                            ],
                         ),
-                        cls="list-disc ml-5 mt-4 text-sm text-gray-600 space-y-2",
-                    ),
-                    cls="p-6 bg-gray-50 rounded-2xl hover:bg-white hover:shadow-xl transition-all h-full border border-transparent hover:border-blue-100",
-                ),
-                # Quran SRS
-                Div(
-                    DivHStacked(
-                        UkIcon("book-open", cls="text-blue-500 mr-2"),
-                        H4("Quran Memorization SRS", cls="m-0 font-bold"),
-                    ),
-                    Ul(
-                        Li(
-                            "Developed daily revision tracking system with adaptive SRS logic."
-                        ),
-                        Li(
-                            "Built multi-role system for parents, teachers, and students."
-                        ),
-                        Li("Used FastHTML, MVC architecture, and SQLite."),
-                        cls="list-disc ml-5 mt-4 text-sm text-gray-600 space-y-2",
-                    ),
-                    cls="p-6 bg-gray-50 rounded-2xl hover:bg-white hover:shadow-xl transition-all h-full border border-transparent hover:border-blue-100",
-                ),
+                    ]
+                ],
                 cols_md=2,
                 gap=6,
             ),
         ),
-        cls="p-8 border-0 shadow-2xl ring-1 ring-gray-100",
+        cls="p-8 border-0 shadow-2xl",
     )
 
     return Title("Adhil | Software Engineer"), Main(
@@ -489,39 +333,79 @@ def get():
         SectionWrapper(
             P(
                 "I have fundamental knowledge and hands-on experience in Data Analytics and Python development. I have worked on ETL and data wrangling pipelines to prepare clean, reliable datasets, developed Power BI dashboards for analysis and reporting, and performed data validation using Excel and Power Query. On the backend side, I have built application features using Python and FastHTML, working with SQLite for data storage. I follow standard development practices, including basic testing and GitHub-based version control, and have applied these skills in real-world projects such as an LMS and a Quran memorization SRS.",
-                cls="text-lg leading-relaxed text-gray-600",
+                cls="text-lg text-muted-foreground leading-relaxed",
             ),
             id="about",
             title="About Me",
         ),
-        #
-        SkillsSection(),
+        # Tech Stack with Categories
+        SectionWrapper(
+            Div(
+                *[
+                    Div(
+                        H3(cat, cls="text-xl font-bold mb-6 text-primary"),
+                        Grid(
+                            *[
+                                Card(
+                                    DivVStacked(
+                                        UkIcon(
+                                            i, height=30, width=30, cls="text-primary"
+                                        ),
+                                        H4(n, cls="text-sm m-0"),
+                                        cls="text-center p-4",
+                                    ),
+                                    cls="skill-card",
+                                )
+                                for n, i in items
+                            ],
+                            cols_lg=6,
+                            gap=4,
+                        ),
+                        cls="mb-12",
+                    )
+                    for cat, items in skill_categories.items()
+                ],
+                Div(
+                    H3(
+                        "Concepts & Expertise",
+                        cls="text-xl font-bold mb-6 text-primary",
+                    ),
+                    Div(
+                        *[
+                            Span(
+                                exp,
+                                cls="px-4 py-2 bg-muted rounded-xl text-sm m-1 inline-block border border-border skill-card",
+                            )
+                            for exp in expertise_areas
+                        ],
+                        cls="flex flex-wrap",
+                    ),
+                    cls="mt-10 p-8 rounded-3xl border border-primary/10",
+                ),
+            ),
+            id="skills",
+            title="Technical Stack",
+        ),
         SectionWrapper(experience_card, id="experience", title="Experience"),
+        # Certifications with Provider Logos
         SectionWrapper(
             Grid(
                 *[
                     Card(
                         DivHStacked(
-                            # Provider Logo
-                            Img(
-                                src=provider_logos.get(prov),
-                                cls="w-8 h-8 object-contain mr-4 rounded-md",
-                            ),
-                            # Text Content
+                            Img(src=provider_logos.get(prov, ""), cls="w-10 h-10 mr-4"),
                             Div(
-                                H4(name, cls="m-0 font-bold text-sm leading-tight"),
-                                P(prov, cls="text-xs text-gray-400 m-0"),
+                                H4(name, cls="m-0 text-sm font-bold"),
+                                P(prov, cls="text-xs text-muted-foreground"),
                             ),
-                            # Link Icon
                             A(
-                                UkIcon("external-link", 18, 18),
+                                UkIcon("external-link", 18),
                                 href=link,
                                 target="_blank",
-                                cls="ml-auto text-blue-500 hover:scale-110 transition-transform",
+                                cls="ml-auto text-primary",
                             ),
-                            cls="items-center",
                         ),
-                        cls="p-5 border-0 shadow-sm hover:shadow-md hover:bg-white transition-all bg-gray-50/50",
+                        cls="p-5 project-subcard shadow-sm",
                     )
                     for name, prov, link in certs
                 ],
@@ -535,44 +419,89 @@ def get():
             Card(
                 Div(
                     H3("Jamal Mohamed College of Arts and Science", cls="font-bold"),
-                    P("Bachelor of Computer Science | 78.76%", cls="text-blue-600"),
-                    P("Graduated: May 2023", cls="text-sm text-gray-500"),
+                    P("Bachelor of Computer Science | 78.76%", cls="text-primary"),
+                    P("Graduated: May 2023", cls="text-sm text-muted-foreground"),
                     cls="p-6",
-                ),
-                cls="border-0 shadow-lg",
+                )
             ),
             id="education",
             title="Education",
         ),
-        ContactSection(),
+        # Contact Form
+        SectionWrapper(
+            Div(
+                UkIcon("heart-handshake", height=80, width=80, cls="text-primary mb-6"),
+                Grid(
+                    Div(
+                        H3("Let's work together", cls="font-bold text-2xl mb-4"),
+                        P(
+                            "I'm currently looking for new opportunities. Whether you have a question or just want to say hi, I'll try my best to get back to you!",
+                            cls="text-muted-foreground m-4 justify-center",
+                        ),
+                        DivVStacked(
+                            DivHStacked(
+                                UkIcon("mail", cls="text-primary mr-3"),
+                                P("adlpro253@gmail.com"),
+                            ),
+                            DivHStacked(
+                                UkIcon("phone", cls="text-primary mr-3"),
+                                P("+91 7339445413"),
+                            ),
+                            cls="mb-2",
+                            gap=4,
+                        ),
+                    ),
+                    Form(
+                        DivVStacked(
+                            Input(
+                                placeholder="Name",
+                                name="name",
+                                cls="contact-input",
+                                required=True,
+                            ),
+                            Input(
+                                placeholder="Email",
+                                name="email",
+                                type="email",
+                                cls="contact-input",
+                                required=True,
+                            ),
+                            TextArea(
+                                placeholder="Message",
+                                name="message",
+                                rows=4,
+                                cls="contact-input",
+                                required=True,
+                            ),
+                            Button(
+                                "Send Message",
+                                type="submit",
+                                cls="btn btn-primary py-4",
+                            ),
+                            gap=4,
+                        ),
+                        action="/send-message",
+                        method="post",
+                    ),
+                    cols_md=2,
+                    gap=12,
+                    cls="items-center",
+                ),
+                cls="form-container shadow-xl",
+            ),
+            id="contact",
+            title="Get In Touch",
+        ),
         Footer(
             DivCentered(
-                DivHStacked(
-                    *(contact_links),
-                    cls=" space-x-4",
-                ),
-                I(
+                P(
                     "© 2025 Adhil. Built with FastHTML & MonsterUI",
-                    cls="text-gray-400 text-sm pb-10",
-                ),
+                    cls="text-muted-foreground text-sm p-10",
+                )
             ),
-            cls="py-4 bg-gray-900 mt-20",
+            cls="mt-12",
         ),
     )
-
-
-@rt("/send-message", methods=["POST"])
-async def post(request):
-    form = await request.form()
-    name = form.get("name")
-    email_addr = form.get("email")
-    message = form.get("message")
-
-    subject = f"Portfolio Message from {name}"
-    body = f"From: {name} ({email_addr})\n\nMessage:\n{message}"
-
-    mailto_link = f"mailto:adlpro253@gmail.com?subject={urllib.parse.quote(subject)}&body={urllib.parse.quote(body)}"
-    return RedirectResponse(url=mailto_link)
 
 
 serve()

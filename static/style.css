@@ -1,132 +1,82 @@
-/* Smooth Scrolling */
+/* Smooth Scrolling & Theme Base */
 html { scroll-behavior: smooth !important; }
-body { font-family: 'Inter', sans-serif; background-color: #fff; }
+body { 
+    background-color: hsl(var(--background)); 
+    color: hsl(var(--foreground)); 
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+}
 
-/* 1. GLASS NAV BAR (Horizontal & Clean) */
+/* 1. FIXED HORIZONTAL NAVBAR (Universal for Mobile & Desktop) */
 .glass-nav {
-    background: rgba(255, 255, 255, 0.8) !important;
-    backdrop-filter: blur(15px) saturate(180%);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    background: hsla(var(--background), 0.8) !important;
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid hsl(var(--border));
 }
 
-/* 2. NAV HIGHLIGHT (Text Only, No Line) */
-.uk-navbar-nav {
-    display: flex !important;
-    flex-direction: row !important; /* Forces horizontal */
+/* Forces the list to stay horizontal and spaced on all screens */
+.uk-navbar-nav { 
+    display: flex !important; 
+    flex-direction: row !important; 
+    gap: 20px; 
+    padding: 0;
+    margin: 0;
+    list-style: none;
 }
 
-.uk-navbar-nav li > a {
-    text-transform: capitalize !important;
-    color: #666 !important;
+.uk-navbar-nav li > a { 
+    color: hsl(var(--muted-foreground)) !important; 
+    padding: 0 10px !important; 
     transition: color 0.3s ease;
-    margin: 8px;
+    white-space: nowrap; /* Prevents text from wrapping to a second line */
 }
 
-/* Only change text color for active section, no background or lines */
-.uk-navbar-nav li.uk-active > a {
-    color: #3b82f6 !important;
-    font-weight: 700 !important;
+.uk-navbar-nav li.uk-active > a { 
+    color: hsl(var(--primary)) !important; 
+    font-weight: 800 !important; 
 }
 
-/* 3. TYPING EFFECT (Fixed 'y' clipping) */
-.typing-container { 
-    display: inline-block; 
-    padding-bottom: 10px; /* Space after name so 'y' is not hidden */
-}
+/* Ensure the mobile toggle icon is never shown */
+.mobile-menu-toggle { display: none !important; }
 
+/* 2. HERO & TYPING ('y' fix) */
+.typing-container { display: inline-block; padding-bottom: 15px; }
 .typing {
     overflow: hidden;
-    border-right: .15em solid #3b82f6;
+    border-right: .15em solid hsl(var(--primary));
     white-space: nowrap;
     animation: typing 3.5s steps(30, end) forwards, blink-caret .75s step-end infinite;
 }
-
 @keyframes typing { from { width: 0 } to { width: 100% } }
 @keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: #3b82f6; } }
 
-/* Layout Containers */
-.section-container { max-width: 1000px; margin: 0 auto; padding: 0 2rem; }
-
-/* Contact Form Styling */
-.contact-input {
-    background: #f9fafb !important;
-    border: 1px solid #e5e7eb !important;
-    transition: all 0.3s ease;
-}
-
-.contact-input:focus {
-    background: #ffffff !important;
-    border-color: #3b82f6 !important;
-    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
-}
-
-.form-container {
-    background: #ffffff;
-    border-radius: 24px;
-    padding: 3rem;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
-}
-
-/* Skill Card Modern Styling */
+/* 3. MODERN TECH STACK HOVER */
 .skill-card {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(0, 0, 0, 0.05) !important;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    border-radius: 20px !important;
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
 }
-
 .skill-card:hover {
-    transform: translateY(-10px) scale(1.02);
-    border-color: #3b82f6 !important;
-    background: #ffffff;
-    box-shadow: 0 20px 25px -5px rgba(59, 130, 246, 0.1), 0 10px 10px -5px rgba(59, 130, 246, 0.04);
+    transform: translateY(-10px);
+    border-color: hsl(var(--primary)) !important;
+    box-shadow: 0 15px 30px -10px hsla(var(--primary), 0.2);
 }
 
-.skill-icon-container {
-    background: rgba(59, 130, 246, 0.05);
-    padding: 15px;
-    border-radius: 15px;
-    display: inline-block;
-    transition: background 0.3s ease;
+/* 4. PROJECT & FORM STYLING */
+.project-subcard { border: 1px solid hsl(var(--border)) !important; transition: all 0.3s ease; }
+.project-subcard:hover { border-color: hsl(var(--primary)) !important; transform: scale(1.01); }
+
+.form-container { 
+    background: hsl(var(--card)); 
+    border-radius: 2rem; 
+    border: 1px solid hsl(var(--border)); 
+    padding: 2rem; 
 }
 
-.skill-card:hover .skill-icon-container {
-    background: rgba(59, 130, 246, 0.1);
-}
-
-
-
-/* Skill Card Container - matches the reference's clean look */
-.skill-icon-container {
-    background: #f0f7ff;
-    padding: 12px;
-    border-radius: 12px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* Specific styling for the Expertise badges */
-.expertise-badge {
-    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-}
-
-.expertise-badge:hover {
-    background: #ffffff !important;
-    box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.1);
-    transform: translateY(-2px);
-}
-
-/* Category Title Accent */
-h3.text-blue-600 {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-h3.text-blue-600::after {
-    content: "";
-    flex-grow: 1;
-    height: 1px;
-    background: linear-gradient(to right, rgba(59, 130, 246, 0.2), transparent);
+/* 5. MOBILE MARGINS */
+.section-container { 
+    max-width: 1100px; 
+    margin: 0 auto; 
+    padding: 0 1.5rem; 
 }
