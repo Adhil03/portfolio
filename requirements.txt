@@ -1,4 +1,4 @@
-python-fasthtml==0.12.1
+python-fasthtml
 monsterui==1.0.19
 uvicorn==0.34.0
 pandas==2.2.3
