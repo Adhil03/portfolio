@@ -5,3 +5,4 @@ venv/
 # others
 .sesskey
 /__pycache__
+/static/skip

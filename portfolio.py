@@ -242,7 +242,7 @@ def get():
                     A(
                         UkIcon("download-cloud", cls="mr-2"),
                         "Download CV",
-                        href="/static/Adhil_M_Resume_Dec2025.pdf",
+                        href="/static/Adhil_M_Resume_Jan2026.pdf",
                         download=True,
                         cls="btn btn-primary",
                     ),
