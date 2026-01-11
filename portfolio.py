@@ -14,7 +14,6 @@ hdrs = (
 app, rt = fast_app(hdrs=hdrs, bodykw={"class": "bg-background text-foreground"})
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
-# Updated order to prioritize Experience and Projects
 sections = [
     "home",
     "about",
@@ -26,7 +25,6 @@ sections = [
     "contact",
 ]
 
-# Standardized to match your new CV categories
 skill_categories = {
     "Backend & App Dev": [
         ("Python", "code"),
@@ -47,6 +45,13 @@ skill_categories = {
         ("Power Query", "filter"),
         ("Excel", "file-spreadsheet"),
     ],
+    "Tools & Deployment": [
+        ("Git", "git-branch"),
+        ("GitHub", "github"),
+        ("Railway", "train-front"),
+        ("Render", "cloud"),
+        ("VS Code", "terminal-square"),
+    ],
 }
 
 expertise_areas = [
@@ -54,9 +59,10 @@ expertise_areas = [
     "MVC/MVT Architecture",
     "Unit Testing",
     "API Integration",
-    "Version Control (Git)",
+    "Version Control",
     "TDD",
     "BDD",
+    "CI/CD Concepts",
     "Data Modelling",
     "Data Validation",
     "ETL Pipelines",
@@ -244,7 +250,7 @@ def get():
         id="home-section",
     )
 
-    # Professional Experience Section - Updated Bullets
+    # Professional Experience Section
     experience_card = Card(
         Div(
             DivHStacked(
@@ -268,7 +274,6 @@ def get():
                             UkIcon(icon, cls="text-primary mr-2"),
                             H4(title, cls="m-0 font-bold"),
                         ),
-                        # --- NEW SKILL TAGS ---
                         Div(
                             *[
                                 Span(
@@ -337,12 +342,7 @@ def get():
                                 "Engineered automated Power Query pipelines for ETL and data transformation.",
                                 "Performed thorough data validation to ensure 100% reporting accuracy.",
                             ],
-                            [
-                                "Power BI",
-                                "Power Query",
-                                "Excel",
-                                "Data Modeling",
-                            ],  # Tags
+                            ["Power BI", "Power Query", "Excel", "Data Modeling"],
                             True,
                             None,
                             "Confidential financial reporting project.",
@@ -355,7 +355,7 @@ def get():
                                 "Contributed to student-facing features for quiz attempts and result tracking.",
                                 "Optimized data operations by importing questions via Pandas/Openpyxl.",
                             ],
-                            ["Python", "FastHTML", "SQLite", "Pandas"],  # Tags
+                            ["Python", "FastHTML", "SQLite", "Pandas"],
                             False,
                             "https://github.com/BIsquared/lms",
                             "Collaborated in a Driver-Navigator setup.",
@@ -368,13 +368,7 @@ def get():
                                 "Implemented multi-role user management for parents, teachers, and students.",
                                 "Enhanced system performance using Python and SQLite.",
                             ],
-                            [
-                                "Python",
-                                "FastHTML",
-                                "MVC",
-                                "SQLite",
-                                "Algorithms",
-                            ],  # Tags
+                            ["Python", "FastHTML", "MVC", "Algorithms"],
                             False,
                             "https://github.com/siraj-samsudeen/quran-srs",
                             "Developed core revision logic.",
@@ -388,7 +382,7 @@ def get():
         cls="p-8 border-0 shadow-2xl",
     )
 
-    # Personal Projects Grid - NEW
+    # Personal Projects Grid
     personal_projects = Grid(
         Card(
             Div(
