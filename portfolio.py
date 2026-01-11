@@ -371,7 +371,15 @@ def get():
     personal_projects = Grid(
         Card(
             Div(
-                H4("Own Space – Django Task Manager", cls="font-bold text-primary"),
+                H4(
+                    A(
+                        "Own Space – Django Task Manager 🔗",
+                        href="https://github.com/Adhil03/django-todo",
+                        target="_blank",
+                        cls=("text-primary font-bold", ButtonT.text),
+                    ),
+                    cls="font-bold text-primary",
+                ),
                 P(
                     "Mastered Django MVT and ORM through a full-featured CRUD application.",
                     cls="text-sm text-muted-foreground",
@@ -388,7 +396,15 @@ def get():
         ),
         Card(
             Div(
-                H4("Developer Portfolio (FastHTML)", cls="font-bold text-primary"),
+                H4(
+                    A(
+                        "Developer Portfolio (FastHTML) 🔗",
+                        href="https://github.com/Adhil03/portfolio",
+                        target="_blank",
+                        cls=("text-primary font-bold", ButtonT.text),
+                    ),
+                    cls="font-bold text-primary",
+                ),
                 P(
                     "A high-performance site deployed on Railway & Render using modern Python web tools.",
                     cls="text-sm text-muted-foreground",
