@@ -14,63 +14,53 @@ hdrs = (
 app, rt = fast_app(hdrs=hdrs, bodykw={"class": "bg-background text-foreground"})
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
+# Updated order to prioritize Experience and Projects
 sections = [
     "home",
     "about",
-    "skills",
     "experience",
+    "projects",
+    "skills",
     "certifications",
     "education",
     "contact",
 ]
 
+# Standardized to match your new CV categories
 skill_categories = {
+    "Backend & App Dev": [
+        ("Python", "code"),
+        ("Django (MVT)", "layers"),
+        ("FastHTML", "rocket"),
+        ("HTMX", "zap"),
+        ("RESTful APIs", "globe"),
+    ],
+    "Databases & ORM": [
+        ("SQL", "database"),
+        ("SQLite", "database-zap"),
+        ("DuckDB", "box"),
+        ("SQLAlchemy", "link"),
+    ],
     "Data Analytics": [
         ("Pandas", "table"),
-        ("SQL", "database"),
-        ("DuckDB", "zap"),
         ("Power BI", "bar-chart-3"),
-        ("Rill Data", "chart-line"),
-        ("Matplotlib", "chart-spline"),
-        ("Excel", "file-spreadsheet"),
         ("Power Query", "filter"),
-    ],
-    "Development": [
-        ("Python", "code"),
-        ("FastHTML", "rocket"),
-        ("REST APIs", "globe"),
-        ("Git", "git-branch"),
-        ("GitHub", "github"),
-        ("Pytest", "check-circle"),
-        ("SQL", "database"),
-        ("SQLite", "database"),
-        ("SQLAlchemy", "database-zap"),
+        ("Excel", "file-spreadsheet"),
     ],
 }
 
 expertise_areas = [
-    "Data Cleaning",
-    "Data Visualization",
-    "Data Manipulation",
-    "Data Aggregation",
-    "Exploratory Data Analysis",
-    "Performance Metrics",
-    "ETL Pipelines",
-    "Dashboard Design",
-    "SQLite",
-    "FastHTML",
-    "SQLAlchemy",
-    "Git",
-    "GitHub",
     "Backend Logic",
-    "MVC Architecture",
-    "Automated Testing",
-    "Authentication",
-    "Authorization",
-    "Version Control",
-    "Testing",
+    "MVC/MVT Architecture",
+    "Unit Testing",
+    "API Integration",
+    "Version Control (Git)",
     "TDD",
     "BDD",
+    "Data Modelling",
+    "Data Validation",
+    "ETL Pipelines",
+    "Dashboard Design",
 ]
 
 provider_logos = {
@@ -82,19 +72,24 @@ provider_logos = {
 
 certs = [
     (
+        "100 Days of Code: Python Pro",
+        "Udemy",
+        "https://www.udemy.com/certificate/UC-b4e09f1f-1e91-4fbc-b11c-54ba2c45be54/",
+    ),
+    (
         "Microsoft Power BI Desktop",
         "Udemy",
         "https://www.udemy.com/certificate/UC-c2bd8fc2-2652-4ada-bf7f-c38a13c79b15/",
     ),
     (
+        "SQL (Basic & Intermediate)",
+        "HackerRank",
+        "https://www.hackerrank.com/certificates/d53a7cd388a8",
+    ),
+    (
         "Data Analysis using Microsoft Excel",
         "Coursera",
         "https://www.coursera.org/account/accomplishments/verify/BH80B53FE41E/",
-    ),
-    (
-        "100 Days of Code: Python Pro",
-        "Udemy",
-        "https://www.udemy.com/certificate/UC-b4e09f1f-1e91-4fbc-b11c-54ba2c45be54/",
     ),
     (
         "Face Recognition App",
@@ -105,11 +100,6 @@ certs = [
         "AI For India 2.0",
         "GUVI",
         "https://www.guvi.in/verify-certificate?id=61rzp919C0j12P1390",
-    ),
-    (
-        "SQL Intermediate",
-        "HackerRank",
-        "https://www.hackerrank.com/certificates/d53a7cd388a8",
     ),
 ]
 
@@ -187,9 +177,10 @@ def get():
 @rt("/send-message", methods=["POST"])
 async def post(request):
     form = await request.form()
-    name, email, msg = form.get("name"), form.get("email"), form.get("message")
-    subject = urllib.parse.quote(f"Portfolio Message from {name}")
-    body = urllib.parse.quote(f"From: {name} ({email})\n\n{msg}")
+    subject = urllib.parse.quote(f"Portfolio Message from {form.get('name')}")
+    body = urllib.parse.quote(
+        f"From: {form.get('name')} ({form.get('email')})\n\n{form.get('message')}"
+    )
     return RedirectResponse(
         url=f"mailto:adlpro253@gmail.com?subject={subject}&body={body}"
     )
@@ -224,17 +215,12 @@ def get():
                 ),
                 DivHStacked(
                     UkIcon("map-pin", cls="mr-2"),
-                    A(
-                        I("Chennai, India", cls=("text-grey-300", ButtonT.text)),
-                        href="https://maps.app.goo.gl/Mo764VWQ21JRVR8v7",
-                        target="_blank",
-                    ),
+                    I("Chennai, India"),
                     cls="justify-center mb-4",
                 ),
                 Div(
                     I(
-                        '"A passionate Python developer with hands-on experience in data analytics and backend development. I build reliable backend features using Python and FastHTML to support real-world applications."',
-                        cls="text-gray-500",
+                        '"Software Engineer with 1+ years of experience in Python application development. Built LMS and SRS applications using FastHTML, and currently strengthening backend skills with Django (MVT)."'
                     ),
                     cls="max-w-lg mx-auto mb-6 px-4 text-muted-foreground",
                 ),
@@ -262,13 +248,16 @@ def get():
         id="home-section",
     )
 
-    # Full Experience Section
+    # Professional Experience Section - Updated Bullets
     experience_card = Card(
         Div(
             DivHStacked(
                 Div(
                     H3("BI Squared Consulting Ltd", cls="font-bold text-primary m-0"),
-                    P("Software Engineer – Data & Python", cls="text-muted-foreground"),
+                    P(
+                        "Associate Software Engineer – Data & Python",
+                        cls="text-muted-foreground",
+                    ),
                 ),
                 Span(
                     "April 2024 – Present",
@@ -283,7 +272,6 @@ def get():
                             UkIcon(icon, cls="text-primary mr-2"),
                             H4(title, cls="m-0 font-bold"),
                         ),
-                        # Label Row (Confidential / Pair Programming)
                         Div(
                             (
                                 Span(
@@ -293,32 +281,15 @@ def get():
                                 if confidential
                                 else ""
                             ),
-                            # (
-                            #     Span(
-                            #         # "Pair Programmed",
-                            #         cls="text-[10px] bg-blue-50 text-blue-600 px-2 py-0.5 rounded",
-                            #     )
-                            #     if pair_programmed
-                            #     else ""
-                            # ),
-                            # (
-                            #     Span(
-                            #         # "Collabration",
-                            #         cls="text-[10px] bg-blue-50 text-blue-600 px-2 py-0.5 rounded",
-                            #     )
-                            #     if collabrative
-                            #     else ""
-                            # ),
                             cls="mt-2",
                         ),
                         Ul(
                             *[Li(b) for b in bullets],
                             cls="list-disc ml-5 mt-4 text-sm text-muted-foreground space-y-2",
                         ),
-                        # Expandable Proof Section
                         Details(
                             Summary(
-                                "View Proof & Links",
+                                "View Details",
                                 cls="text-xs text-primary cursor-pointer mt-4 hover:underline",
                             ),
                             Div(
@@ -328,40 +299,22 @@ def get():
                                     cls="text-xs italic text-muted-foreground m-6",
                                 ),
                                 (
-                                    (
-                                        DivHStacked(
-                                            (
-                                                A(
-                                                    Button(
-                                                        "Code",
-                                                        cls="uk-button-xsmall uk-button-default text-[10px]",
-                                                    ),
-                                                    href=repo_url,
-                                                    target="_blank",
-                                                )
-                                                if repo_url
-                                                else ""
+                                    DivHStacked(
+                                        A(
+                                            Button(
+                                                "Code",
+                                                cls="uk-button-xsmall uk-button-default text-[10px]",
                                             ),
-                                            (
-                                                A(
-                                                    Button(
-                                                        "Verify",
-                                                        cls="uk-button-xsmall uk-button-primary text-[10px]",
-                                                    ),
-                                                    href=f"{repo_url}/graphs/contributors",
-                                                    target="_blank",
-                                                )
-                                                if repo_url
-                                                else ""
-                                            ),
-                                            cls="gap-2",
-                                        )
-                                        if not confidential
-                                        else P(
-                                            "Codebase is private per client agreement.",
-                                            cls="text-[10px] text-muted-foreground m-6",
-                                        )
-                                    ),
+                                            href=repo_url,
+                                            target="_blank",
+                                        ),
+                                        cls="gap-2",
+                                    )
+                                    if repo_url
+                                    else P(
+                                        "Codebase is private per client agreement.",
+                                        cls="text-[10px] text-muted-foreground m-6",
+                                    )
                                 ),
                             ),
                             cls="mt-auto",
@@ -373,43 +326,37 @@ def get():
                             "IOM USRAP Dashboard",
                             "presentation",
                             [
-                                "Developed Power BI dashboards at summary and departmental levels to improve visibility into budget and operational trends.",
-                                "Built Power Query pipelines for data cleaning, merging, and transformation.",
-                                "Performed data validation and quality checks to ensure accurate reporting.",
+                                "Developed multi-departmental Power BI dashboards to improve visibility into budget trends.",
+                                "Engineered automated Power Query pipelines for ETL and data transformation.",
+                                "Performed thorough data validation to ensure 100% reporting accuracy.",
                             ],
-                            True,  # Confidential
-                            # False,  # Pair Programmed
-                            # False,
+                            True,
                             None,
-                            "Client Confidentiality Agreement in place.",
+                            "Confidential financial reporting project.",
                         ),
                         (
                             "Learning Management System",
                             "graduation-cap",
                             [
-                                "Contributed to a quiz-based LMS enabling teachers to manage questions, quizzes, and student performance.",
-                                "Built student-facing pages for taking quizzes, saving answers, and viewing results.",
-                                "Handled Excel imports using Pandas/OpenPyXL and exports via xlwings.",
+                                "Built a quiz-based internal LMS using Python and FastHTML, automating scoring logic.",
+                                "Contributed to student-facing features for quiz attempts and result tracking.",
+                                "Optimized data operations by importing questions via Pandas/Openpyxl.",
                             ],
                             False,
-                            # True,  # Pair Programmed
-                            # False,
                             "https://github.com/BIsquared/lms",
-                            "Collaborated in a Driver-Navigator setup to ensure high code quality.",
+                            "Collaborated in a Driver-Navigator setup.",
                         ),
                         (
                             "Quran Memorization SRS",
                             "book-open",
                             [
-                                "Developed daily revision tracking system with adaptive SRS logic.",
-                                "Built multi-role user system for parents, teachers, and students.",
-                                "Enhanced experience with Python, FastHTML, MVC, and SQLite.",
+                                "Architected a tracking system with adaptive Spaced Repetition logic and MVC architecture.",
+                                "Implemented multi-role user management for parents, teachers, and students.",
+                                "Enhanced system performance using Python and SQLite.",
                             ],
                             False,
-                            # False,
-                            # True,
                             "https://github.com/siraj-samsudeen/quran-srs",
-                            "Collaborated on feature implementation and logic refinement for the Spaced Repetition engine.",
+                            "Developed core revision logic.",
                         ),
                     ]
                 ],
@@ -419,18 +366,62 @@ def get():
         ),
         cls="p-8 border-0 shadow-2xl",
     )
+
+    # Personal Projects Grid - NEW
+    personal_projects = Grid(
+        Card(
+            Div(
+                H4("Own Space – Django Task Manager", cls="font-bold text-primary"),
+                P(
+                    "Mastered Django MVT and ORM through a full-featured CRUD application.",
+                    cls="text-sm text-muted-foreground",
+                ),
+                Ul(
+                    Li("Django MVT Architecture"),
+                    Li("PRG Design Pattern"),
+                    Li("Database Migrations"),
+                    cls="text-xs mt-4 list-disc ml-4",
+                ),
+                cls="p-6 h-full shadow-sm flex flex-col",
+            ),
+            cls="project-subcard",
+        ),
+        Card(
+            Div(
+                H4("Developer Portfolio (FastHTML)", cls="font-bold text-primary"),
+                P(
+                    "A high-performance site deployed on Railway & Render using modern Python web tools.",
+                    cls="text-sm text-muted-foreground",
+                ),
+                Ul(
+                    Li("FastHTML"),
+                    Li("AI-Assisted UI Rapid Prototyping"),
+                    Li("Cloud Deployment"),
+                    cls="text-xs mt-4 list-disc ml-4",
+                ),
+                cls="p-6 h-full shadow-sm flex flex-col",
+            ),
+            cls="project-subcard",
+        ),
+        cols_md=2,
+        gap=6,
+    )
+
     return Title("Adhil | Software Engineer"), Main(
         NavBarCustom(),
         hero,
         SectionWrapper(
             P(
-                "I have fundamental knowledge and hands-on experience in Data Analytics and Python development. I have worked on ETL and data wrangling pipelines to prepare clean, reliable datasets, developed Power BI dashboards for analysis and reporting, and performed data validation using Excel and Power Query. On the backend side, I have built application features using Python and FastHTML, working with SQLite for data storage. I follow standard development practices, including basic testing and GitHub-based version control, and have applied these skills in real-world projects such as an LMS and a Quran memorization SRS.",
+                "Software Engineer with 1+ years of experience in Python application development and data-supported systems. I enjoy working across backend logic and data processing to build practical solutions for real-world use cases.",
                 cls="text-lg text-muted-foreground leading-relaxed",
             ),
             id="about",
             title="About Me",
         ),
-        # Tech Stack with Categories
+        SectionWrapper(
+            experience_card, id="experience", title="Professional Experience"
+        ),
+        SectionWrapper(personal_projects, id="projects", title="Personal Projects"),
         SectionWrapper(
             Div(
                 *[
@@ -458,10 +449,7 @@ def get():
                     for cat, items in skill_categories.items()
                 ],
                 Div(
-                    H3(
-                        "Concepts & Expertise",
-                        cls="text-xl font-bold mb-6 text-primary",
-                    ),
+                    H3("Expertise", cls="text-xl font-bold mb-6 text-primary"),
                     Div(
                         *[
                             Span(
@@ -478,8 +466,6 @@ def get():
             id="skills",
             title="Technical Stack",
         ),
-        SectionWrapper(experience_card, id="experience", title="Experience"),
-        # Certifications with Provider Logos
         SectionWrapper(
             Grid(
                 *[
@@ -519,7 +505,6 @@ def get():
             id="education",
             title="Education",
         ),
-        # Contact Form
         SectionWrapper(
             Div(
                 UkIcon("heart-handshake", height=80, width=80, cls="text-primary mb-6"),
@@ -527,8 +512,8 @@ def get():
                     Div(
                         H3("Let's work together", cls="font-bold text-2xl mb-4"),
                         P(
-                            "I'm currently looking for new opportunities. Whether you have a question or just want to say hi, I'll try my best to get back to you!",
-                            cls="text-muted-foreground m-4 justify-center",
+                            "I'm currently looking for new opportunities in Python development.",
+                            cls="text-muted-foreground m-4",
                         ),
                         DivVStacked(
                             DivHStacked(
@@ -539,7 +524,6 @@ def get():
                                 UkIcon("phone", cls="text-primary mr-3"),
                                 P("+91 7339445413"),
                             ),
-                            cls="mb-2",
                             gap=4,
                         ),
                     ),
@@ -587,7 +571,7 @@ def get():
         Footer(
             DivCentered(
                 P(
-                    "© 2025 Adhil. Built with FastHTML & MonsterUI",
+                    "© 2026 Adhil. Built with FastHTML & MonsterUI",
                     cls="text-muted-foreground text-sm p-10",
                 )
             ),
