@@ -461,30 +461,38 @@ def get():
             Div(
                 *[
                     Div(
-                        H3(cat, cls="text-xl font-bold mb-6 text-primary"),
-                        Grid(
+                        H3(cat, cls="text-xl font-bold mb-4 text-primary"),
+                        Div(
                             *[
                                 Card(
                                     DivVStacked(
+                                        # Icon stays a good visible size
                                         UkIcon(
-                                            i, height=30, width=30, cls="text-primary"
+                                            i, height=28, width=28, cls="text-primary"
                                         ),
-                                        H4(n, cls="text-sm m-0"),
-                                        cls="text-center p-4",
+                                        # Text wraps if needed, small font
+                                        H4(
+                                            n,
+                                            cls="text-xs m-0 mt-2 font-medium leading-tight",
+                                        ),
+                                        cls="text-center items-center justify-center h-full",
                                     ),
-                                    cls="skill-card",
+                                    # FIXED WIDTHS: w-24 on mobile, w-32 on desktop
+                                    # This prevents them from becoming huge on laptops
+                                    cls="w-24 md:w-32 p-3 hover:border-primary/50 transition-colors shadow-sm bg-card",
                                 )
                                 for n, i in items
                             ],
-                            cols_lg=6,
-                            gap=4,
+                            # Flex wrap allows them to pack tightly
+                            cls="flex flex-wrap gap-3",
                         ),
-                        cls="mb-12",
+                        cls="mb-8",
                     )
                     for cat, items in skill_categories.items()
                 ],
+                # Expertise Section (Concepts)
                 Div(
-                    H3("Expertise", cls="text-xl font-bold mb-6 text-primary"),
+                    H3("Expertise", cls="text-xl font-bold mb-4 text-primary"),
                     Div(
                         *[
                             Span(
@@ -493,9 +501,9 @@ def get():
                             )
                             for exp in expertise_areas
                         ],
-                        cls="flex flex-wrap",
+                        cls="flex flex-wrap gap-2",
                     ),
-                    cls="mt-10 p-8 rounded-3xl border border-primary/10",
+                    cls="mt-6 p-6 rounded-2xl border border-dashed border-primary/20",
                 ),
             ),
             id="skills",
