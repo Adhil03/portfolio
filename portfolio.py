@@ -133,12 +133,8 @@ def NavBarCustom():
         ThemePicker(mode=True, color=True, radii=True),
         uk_dropdown="mode: click; pos: bottom-right",
     )
-
-    # Desktop Links
     nav_links = [Li(A(s.capitalize(), href=f"#{s}-section")) for s in sections]
-
     return NavBar(
-        # Horizontal Desktop Nav
         Ul(
             *nav_links,
             cls="uk-navbar-nav desktop-nav",
@@ -272,6 +268,17 @@ def get():
                             UkIcon(icon, cls="text-primary mr-2"),
                             H4(title, cls="m-0 font-bold"),
                         ),
+                        # --- NEW SKILL TAGS ---
+                        Div(
+                            *[
+                                Span(
+                                    tag,
+                                    cls="text-[10px] border border-primary/20 bg-primary/5 px-2 py-0.5 rounded-md text-muted-foreground",
+                                )
+                                for tag in tags
+                            ],
+                            cls="flex flex-wrap gap-2 mt-3 mb-2",
+                        ),
                         Div(
                             (
                                 Span(
@@ -281,11 +288,11 @@ def get():
                                 if confidential
                                 else ""
                             ),
-                            cls="mt-2",
+                            cls="mt-1",
                         ),
                         Ul(
                             *[Li(b) for b in bullets],
-                            cls="list-disc ml-5 mt-4 text-sm text-muted-foreground space-y-2",
+                            cls="list-disc ml-5 mt-2 text-sm text-muted-foreground space-y-1",
                         ),
                         Details(
                             Summary(
@@ -321,7 +328,7 @@ def get():
                         ),
                         cls="p-6 project-subcard rounded-2xl h-full shadow-sm flex flex-col",
                     )
-                    for title, icon, bullets, confidential, repo_url, proof_desc in [
+                    for title, icon, bullets, tags, confidential, repo_url, proof_desc in [
                         (
                             "IOM USRAP Dashboard",
                             "presentation",
@@ -330,6 +337,12 @@ def get():
                                 "Engineered automated Power Query pipelines for ETL and data transformation.",
                                 "Performed thorough data validation to ensure 100% reporting accuracy.",
                             ],
+                            [
+                                "Power BI",
+                                "Power Query",
+                                "Excel",
+                                "Data Modeling",
+                            ],  # Tags
                             True,
                             None,
                             "Confidential financial reporting project.",
@@ -342,6 +355,7 @@ def get():
                                 "Contributed to student-facing features for quiz attempts and result tracking.",
                                 "Optimized data operations by importing questions via Pandas/Openpyxl.",
                             ],
+                            ["Python", "FastHTML", "SQLite", "Pandas"],  # Tags
                             False,
                             "https://github.com/BIsquared/lms",
                             "Collaborated in a Driver-Navigator setup.",
@@ -354,6 +368,13 @@ def get():
                                 "Implemented multi-role user management for parents, teachers, and students.",
                                 "Enhanced system performance using Python and SQLite.",
                             ],
+                            [
+                                "Python",
+                                "FastHTML",
+                                "MVC",
+                                "SQLite",
+                                "Algorithms",
+                            ],  # Tags
                             False,
                             "https://github.com/siraj-samsudeen/quran-srs",
                             "Developed core revision logic.",
@@ -371,14 +392,16 @@ def get():
     personal_projects = Grid(
         Card(
             Div(
-                H4(
-                    A(
-                        "Own Space – Django Task Manager 🔗",
-                        href="https://github.com/Adhil03/django-todo",
-                        target="_blank",
-                        cls=("text-primary font-bold", ButtonT.text),
-                    ),
-                    cls="font-bold text-primary",
+                H4("Own Space – Django Task Manager", cls="font-bold text-primary"),
+                Div(
+                    *[
+                        Span(
+                            tag,
+                            cls="text-[10px] border border-primary/20 bg-primary/5 px-2 py-0.5 rounded-md text-muted-foreground",
+                        )
+                        for tag in ["Django", "SQLite", "MVT"]
+                    ],
+                    cls="flex flex-wrap gap-2 mt-2 mb-2",
                 ),
                 P(
                     "Mastered Django MVT and ORM through a full-featured CRUD application.",
@@ -396,21 +419,23 @@ def get():
         ),
         Card(
             Div(
-                H4(
-                    A(
-                        "Developer Portfolio (FastHTML) 🔗",
-                        href="https://github.com/Adhil03/portfolio",
-                        target="_blank",
-                        cls=("text-primary font-bold", ButtonT.text),
-                    ),
-                    cls="font-bold text-primary",
+                H4("Developer Portfolio (FastHTML)", cls="font-bold text-primary"),
+                Div(
+                    *[
+                        Span(
+                            tag,
+                            cls="text-[10px] border border-primary/20 bg-primary/5 px-2 py-0.5 rounded-md text-muted-foreground",
+                        )
+                        for tag in ["Python", "FastHTML", "Railway", "Render"]
+                    ],
+                    cls="flex flex-wrap gap-2 mt-2 mb-2",
                 ),
                 P(
-                    "A high-performance site deployed on Railway & Render using modern Python web tools.",
+                    "A high-performance site deployed on Railway using modern Python web tools.",
                     cls="text-sm text-muted-foreground",
                 ),
                 Ul(
-                    Li("FastHTML"),
+                    Li("FastHTML & HTMX"),
                     Li("AI-Assisted UI Rapid Prototyping"),
                     Li("Cloud Deployment"),
                     cls="text-xs mt-4 list-disc ml-4",
