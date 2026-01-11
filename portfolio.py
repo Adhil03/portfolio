@@ -147,8 +147,8 @@ def NavBarCustom():
             uk_scrollspy_nav="closest: li; scroll: true; offset: 100",
         ),
         brand=DivLAligned(
-            H4("Adhil's Portfolio", cls="m-0 font-bold"),
-            UkIcon("badge-check", cls="ml-2"),
+            H4(A("Adhil's Portfolio", href="/", cls="m-0 font-bold")),
+            A(UkIcon("badge-check", cls="p-2"), href="/"),
             Button(UkIcon("palette"), cls="ml-4 btn-ghost"),
             tp_dropdown,
         ),
