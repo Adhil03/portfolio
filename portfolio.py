@@ -230,7 +230,7 @@ def get():
                     A(
                         UkIcon("download-cloud", cls="mr-2"),
                         "Download CV",
-                        href="/static/Adhil_M_Resume_Jan2026.pdf",
+                        href="/static/Adhil_M_Resume_Nov2026.pdf",
                         download=True,
                         cls="btn btn-primary",
                     ),
@@ -384,6 +384,49 @@ def get():
 
     # Personal Projects Grid
     personal_projects = Grid(
+        Card(
+            Div(
+                Div(
+                    H4(
+                        "FinTrack – Accounts & Payment Management System",
+                        cls="font-bold text-primary",
+                    ),
+                    Span(
+                        "WIP",
+                        cls="text-[10px] border border-amber-500/30 bg-amber-500/10 px-2 py-0.5 rounded-md text-amber-600 font-semibold",
+                    ),
+                    cls="flex items-center justify-between gap-2",
+                ),
+                Div(
+                    *[
+                        Span(
+                            tag,
+                            cls="text-[10px] border border-primary/20 bg-primary/5 px-2 py-0.5 rounded-md text-muted-foreground",
+                        )
+                        for tag in ["Python", "Flask", "SQLite", "Excel"]
+                    ],
+                    cls="flex flex-wrap gap-2 mt-2 mb-2",
+                ),
+                P(
+                    "A centralized accounting solution to streamline financial record management and monthly reporting for a non-profit organization.",
+                    cls="text-sm text-muted-foreground",
+                ),
+                Ul(
+                    Li(
+                        "Digitizing manual bookkeeping and inconsistent transaction records"
+                    ),
+                    Li(
+                        "Streamlining donor identification and subscription reconciliation"
+                    ),
+                    Li(
+                        "Automating transaction standardization and fund-wise financial tracking"
+                    ),
+                    cls="text-xs mt-4 list-disc ml-4",
+                ),
+                cls="p-6 h-full shadow-sm flex flex-col",
+            ),
+            cls="project-subcard",
+        ),
         Card(
             Div(
                 H4("Own Space – Django Task Manager", cls="font-bold text-primary"),
