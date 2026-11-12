@@ -206,7 +206,7 @@ def get():
                     cls="typing-container",
                 ),
                 H4(
-                    "Software Engineer @ ",
+                    "Ex-Software Engineer @ ",
                     A(
                         "BISquared",
                         href="https://www.getprog.ai/profile/11910293",
@@ -262,7 +262,7 @@ def get():
                     ),
                 ),
                 Span(
-                    "April 2024 – Present",
+                    "April 2024 – January 2026",
                     cls="px-4 py-1 bg-primary/10 text-primary rounded-full text-xs font-bold ml-auto",
                 ),
                 cls="flex justify-between items-start mb-10",
