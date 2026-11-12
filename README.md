@@ -1,9 +1,9 @@
-# 👨‍💻 Adhil's Portfolio
+# Adhil's Portfolio
 
 A high-performance personal portfolio website built entirely in Python using **FastHTML** and styled with **MonsterUI**. This project showcases my experience as a Software Engineer in Data & Python, featuring a fully responsive design, a dynamic theme customization engine, and a glassmorphism UI.
 
 🔗 **Live site:** [adhil-portfolio.onrender.com](https://adhil-portfolio.onrender.com)
-## ✨ Key Features
+## Key Features
 
 * **⚡ Pure Python Stack:** Built with FastHTML (no JavaScript frameworks required).
 * **🎨 Dynamic Theme Picker:** Users can customize the site's color scheme (Blue, Zinc, Rose, etc.), radius, and dark/light mode in real-time.
@@ -52,4 +52,4 @@ A high-performance personal portfolio website built entirely in Python using **F
 * `requirements.txt`: Production dependencies for Render deployment.
 
 ---
-© 2026 Adhil. Built with ❤️, Python, and a touch of AI.
+© 2026 Adhil. Built with Python and a touch of AI.
